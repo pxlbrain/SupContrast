@@ -16,6 +16,7 @@ from util import adjust_learning_rate, warmup_learning_rate
 from util import set_optimizer, save_model
 from networks.resnet_big import SupConResNet
 from losses import SupConLoss
+from dataset import Ali
 
 try:
     import apex
@@ -52,8 +53,8 @@ def parse_option():
 
     # model dataset
     parser.add_argument('--model', type=str, default='resnet50')
-    parser.add_argument('--dataset', type=str, default='cifar10',
-                        choices=['cifar10', 'cifar100'], help='dataset')
+    parser.add_argument('--dataset', type=str, default='ali',
+                        choices=['cifar10', 'cifar100', 'ali'], help='dataset')
 
     # method
     parser.add_argument('--method', type=str, default='SupCon',
@@ -148,6 +149,8 @@ def set_loader(opt):
         train_dataset = datasets.CIFAR100(root=opt.data_folder,
                                           transform=TwoCropTransform(train_transform),
                                           download=True)
+    elif opt.dataset == 'ali':
+        train_dataset = Ali()
     else:
         raise ValueError(opt.dataset)
 
