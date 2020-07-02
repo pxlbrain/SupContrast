@@ -120,36 +120,36 @@ def parse_option():
 
 def set_loader(opt):
     # construct data loader
-    if opt.dataset == 'cifar10':
-        mean = (0.4914, 0.4822, 0.4465)
-        std = (0.2023, 0.1994, 0.2010)
-    elif opt.dataset == 'cifar100':
-        mean = (0.5071, 0.4867, 0.4408)
-        std = (0.2675, 0.2565, 0.2761)
-    # else:
-    #     raise ValueError('dataset not supported: {}'.format(opt.dataset))
-    normalize = transforms.Normalize(mean=mean, std=std)
-
-    train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(size=32, scale=(0.2, 1.)),
-        transforms.RandomHorizontalFlip(),
-        transforms.RandomApply([
-            transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)
-        ], p=0.8),
-        transforms.RandomGrayscale(p=0.2),
-        transforms.ToTensor(),
-        normalize,
-    ])
-
-    if opt.dataset == 'cifar10':
-        train_dataset = datasets.CIFAR10(root=opt.data_folder,
-                                         transform=TwoCropTransform(train_transform),
-                                         download=True)
-    elif opt.dataset == 'cifar100':
-        train_dataset = datasets.CIFAR100(root=opt.data_folder,
-                                          transform=TwoCropTransform(train_transform),
-                                          download=True)
-    elif opt.dataset == 'ali':
+    # if opt.dataset == 'cifar10':
+    #     mean = (0.4914, 0.4822, 0.4465)
+    #     std = (0.2023, 0.1994, 0.2010)
+    # elif opt.dataset == 'cifar100':
+    #     mean = (0.5071, 0.4867, 0.4408)
+    #     std = (0.2675, 0.2565, 0.2761)
+    # # else:
+    # #     raise ValueError('dataset not supported: {}'.format(opt.dataset))
+    # normalize = transforms.Normalize(mean=mean, std=std)
+    #
+    # train_transform = transforms.Compose([
+    #     transforms.RandomResizedCrop(size=32, scale=(0.2, 1.)),
+    #     transforms.RandomHorizontalFlip(),
+    #     transforms.RandomApply([
+    #         transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)
+    #     ], p=0.8),
+    #     transforms.RandomGrayscale(p=0.2),
+    #     transforms.ToTensor(),
+    #     normalize,
+    # ])
+    #
+    # if opt.dataset == 'cifar10':
+    #     train_dataset = datasets.CIFAR10(root=opt.data_folder,
+    #                                      transform=TwoCropTransform(train_transform),
+    #                                      download=True)
+    # elif opt.dataset == 'cifar100':
+    #     train_dataset = datasets.CIFAR100(root=opt.data_folder,
+    #                                       transform=TwoCropTransform(train_transform),
+    #                                       download=True)
+    if opt.dataset == 'ali':
         train_dataset = Ali()
     else:
         raise ValueError(opt.dataset)
