@@ -8,28 +8,26 @@ import torch.utils.data as data
 from PIL import Image
 
 
-def build_transforms():
-    norm_mean = [0.485, 0.456, 0.406]  # imagenet mean
-    norm_std = [0.229, 0.224, 0.225]  # imagenet std
-    normalize = transforms.Normalize(mean=norm_mean, std=norm_std)
-
-    train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(size=160, scale=(0.2, 1.)),
-        transforms.RandomHorizontalFlip(),
-        transforms.RandomApply([
-            transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)
-        ], p=0.8),
-        transforms.RandomGrayscale(p=0.2),
-        transforms.ToTensor(),
-        normalize,
-    ])
-
-    return train_transform
+# def build_transforms():
+#
+#     normalize = transforms.Normalize(mean=norm_mean, std=norm_std)
+#
+#     train_transform = transforms.Compose([
+#         transforms.RandomResizedCrop(size=160, scale=(0.2, 1.)),
+#         transforms.RandomHorizontalFlip(),
+#         transforms.RandomApply([
+#             transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)
+#         ], p=0.8),
+#         transforms.RandomGrayscale(p=0.2),
+#         transforms.ToTensor(),
+#         normalize,
+#     ])
+#
+#     return train_transform
 
 
 class Ali(data.Dataset):
-    def __init__(self, root_path=""):
-        self.root_path = root_path
+    def __init__(self,transform):
         self.train_json_path = "/media/deep-storage-2/AliProducts/train.json"
         self.train_dir_path = "/media/deep-storage-2/AliProducts/dataset/train/"
         self.train_info = self.get_imgs_info(self.train_json_path)
@@ -48,7 +46,7 @@ class Ali(data.Dataset):
 
         self.paths = self.train_img_paths
         self.labels = self.train_labels
-        self.totensor = build_transforms()
+        self.totensor = transform
 
     @staticmethod
     def get_imgs_info(json_path):

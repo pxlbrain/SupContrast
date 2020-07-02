@@ -128,18 +128,20 @@ def set_loader(opt):
     #     std = (0.2675, 0.2565, 0.2761)
     # # else:
     # #     raise ValueError('dataset not supported: {}'.format(opt.dataset))
-    # normalize = transforms.Normalize(mean=mean, std=std)
-    #
-    # train_transform = transforms.Compose([
-    #     transforms.RandomResizedCrop(size=32, scale=(0.2, 1.)),
-    #     transforms.RandomHorizontalFlip(),
-    #     transforms.RandomApply([
-    #         transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)
-    #     ], p=0.8),
-    #     transforms.RandomGrayscale(p=0.2),
-    #     transforms.ToTensor(),
-    #     normalize,
-    # ])
+    mean = [0.485, 0.456, 0.406]  # imagenet mean
+    std = [0.229, 0.224, 0.225]  # imagenet std
+    normalize = transforms.Normalize(mean=mean, std=std)
+
+    train_transform = transforms.Compose([
+        transforms.RandomResizedCrop(size=192, scale=(0.2, 1.)),
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomApply([
+            transforms.ColorJitter(0.4, 0.4, 0.4, 0.1)
+        ], p=0.8),
+        transforms.RandomGrayscale(p=0.2),
+        transforms.ToTensor(),
+        normalize,
+    ])
     #
     # if opt.dataset == 'cifar10':
     #     train_dataset = datasets.CIFAR10(root=opt.data_folder,
@@ -150,7 +152,7 @@ def set_loader(opt):
     #                                       transform=TwoCropTransform(train_transform),
     #                                       download=True)
     if opt.dataset == 'ali':
-        train_dataset = Ali()
+        train_dataset = Ali(train_transform)
     else:
         raise ValueError(opt.dataset)
 

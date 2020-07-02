@@ -133,7 +133,7 @@ def resnet34(**kwargs):
 
 
 def resnet50(**kwargs):
-    return ResNet(Bottleneck, [3, 4, 6, 3], **kwargs)
+    return ResNet(Bottleneck, [3, 4, 6, 3], **kwargs,)
 
 
 def resnet101(**kwargs):
