@@ -62,7 +62,7 @@ class Ali(data.Dataset):
         return len(self.paths)
 
     def __getitem__(self, item):
-        img_path = os.path.join(self.root_path, self.paths[item])
+        img_path = self.paths[item]
         img = self.pil_loader(img_path)
         img = self.totensor(img)
         label = self.labels[item]
